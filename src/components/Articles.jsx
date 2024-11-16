@@ -4,18 +4,18 @@ import Loading from "./Loading";
 
 // Function to generate a random emoji
 const getRandomEmoji = () => {
-  const emojis = ["🙂", "😊", "😂", "😎", "🤔", "🚀", "✨", "🌍", "🌟"];
+  const emojis = ["🖥️", "🕸️", "😂", "😎", "🤔", "🚀", "✨", "🌍", "🍁"];
   return emojis[Math.floor(Math.random() * emojis.length)];
 };
 
 function Articles() {
-  const { results, getResults, isLoading } = useResults();
+  const { results, getResults, isLoading, query } = useResults();
 
-  // useEffect(() => {
-  //   getResults("/search?q=JavaScript&num=20");
-  //   // Adding a comment to suppress unnecessary dependency warnings
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []); // Only run once on mount
+  useEffect(() => {
+    getResults(`/search?q=${query}&num=20`);
+    // Adding a comment to suppress unnecessary dependency warnings
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   if (isLoading) {
     console.log("Loading..."); // Debugging

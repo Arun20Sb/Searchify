@@ -2,16 +2,16 @@
 import { useEffect } from "react";
 import useNewsResult from "./NewsResult"; // Make sure the path is correct
 import Loading from "./Loading";
+import { useResults } from "../context/useResults";
 
 function News() {
-  const { newsResults, isLoading, error, getNews } = useNewsResult();
+  const { query } = useResults();
+  const { newsResults, isLoading, getNews } = useNewsResult();
 
-  // useEffect(() => {
-  //   getNews(
-  //     "/topic-news-by-section?topic=TECHNOLOGY&query=Elon%20Musk&limit=20"
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []); // Only run once on mount
+  useEffect(() => {
+    getNews(`/search?query=${query}&limit=20`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   if (isLoading) {
     return <Loading />;
@@ -26,7 +26,7 @@ function News() {
         ) => (
           <div
             key={index}
-            className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 md:w-1/3 w-full"
+            className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 md:w-1/4 w-full"
           >
             {photo_url && (
               <img

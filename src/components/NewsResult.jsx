@@ -3,6 +3,8 @@ import { useState } from "react";
 
 const newsUrl = "https://real-time-news-data.p.rapidapi.com";
 
+const apiKey = import.meta.env.VITE_NEWS_API_KEY;
+
 function useNewsResult() {
   const [newsResults, setNewsResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +21,7 @@ function useNewsResult() {
       const response = await fetch(`${newsUrl}${type}`, {
         method: "GET",
         headers: {
-          "x-rapidapi-key": "0ee4666cbamsh1387ec3008a8e29p14b838jsn23f5dea659b7",
+          "x-rapidapi-key": `${apiKey}`,
           "x-rapidapi-host": "real-time-news-data.p.rapidapi.com",
         },
       });

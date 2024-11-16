@@ -2,6 +2,8 @@ import { useState } from "react";
 
 const videoUrl = "https://yt-api.p.rapidapi.com";
 
+const apiKey = import.meta.env.VITE_VIDEOS_API_KEY;
+
 function VideosResult() {
   const [videoResults, setVideoResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,8 +20,7 @@ function VideosResult() {
       const response = await fetch(`${videoUrl}${type}`, {
         method: "GET",
         headers: {
-          "x-rapidapi-key":
-            "0ee4666cbamsh1387ec3008a8e29p14b838jsn23f5dea659b7",
+          "x-rapidapi-key": `${apiKey}`,
           "x-rapidapi-host": "yt-api.p.rapidapi.com",
         },
       });

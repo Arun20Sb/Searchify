@@ -2,6 +2,8 @@ import { createContext, useState } from "react";
 
 const ResultContext = createContext();
 
+const apiKey = import.meta.env.VITE_SEARCH_API_KEY;
+
 const baseURL = "https://real-time-web-search.p.rapidapi.com";
 
 function ResultContextP({ children }) {
@@ -9,22 +11,23 @@ function ResultContextP({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
+  const [query, setQuery] = useState("web3");
 
-  const getResults = async (type) => {
+  const getResults = async (query) => {
     try {
-      if (!type || typeof type !== "string") {
-        throw new Error("Invalid endpoint type specified.");
+      if (!query || typeof query !== "string") {
+        throw new Error("Invalid endpoint query specified.");
       }
 
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch(`${baseURL}${type}`, {
+      const response = await fetch(`${baseURL}${query}`, {
         method: "GET",
         headers: {
-          'x-rapidapi-key': '0ee4666cbamsh1387ec3008a8e29p14b838jsn23f5dea659b7',
-          'x-rapidapi-host': 'real-time-web-search.p.rapidapi.com'
-        }
+          "x-rapidapi-key": `${apiKey}`,
+          "x-rapidapi-host": "real-time-web-search.p.rapidapi.com",
+        },
       });
 
       if (!response.ok) {
@@ -52,6 +55,8 @@ function ResultContextP({ children }) {
         getResults,
         setSearchTerm,
         error,
+        setQuery,
+        query,
       }}
     >
       {children}

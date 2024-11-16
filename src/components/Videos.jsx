@@ -1,14 +1,18 @@
 import { useEffect } from "react";
+import ReactPlayer from "react-player";
 import useVideosResult from "./VideosResult";
 import Loading from "./Loading";
+import { useResults } from "../context/useResults";
 
 function Videos() {
+  const { query } = useResults();
+
   const { videoResults, isLoading, error, getVideos } = useVideosResult();
 
   useEffect(() => {
-    getVideos("/search?query=elon");
+    getVideos(`/search?query=${query}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only run once on mount
+  }, [query]);
 
   if (isLoading) return <Loading />;
   if (error) return <p>Error: {error}</p>;
@@ -17,41 +21,32 @@ function Videos() {
     <div className="flex flex-wrap justify-center gap-8 px-4 py-8">
       {videoResults?.data?.map(
         (
-          {
-            title,
-            description,
-            channelTitle,
-            channelThumbnail,
-            thumbnail,
-            videoId,
-          },
+          { title, description, channelTitle, channelThumbnail, videoId },
           index
         ) => {
-          const thumbnailUrl = thumbnail?.url
-            ? thumbnail.url
-            : `https://i.ytimg.com/vi/${videoId}/hq720.jpg`;
+          const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
           return (
             <div
               key={index}
-              className="bg-white dark:bg-gray-800 shadow-lg rounded-lg md:w-1/3 w-full"
+              className="bg-white dark:bg-gray-800 shadow-lg rounded-lg md:w-1/4 w-full"
             >
-              {/* Video Thumbnail */}
-              <img
-                src={thumbnailUrl}
-                alt={title || "Video Thumbnail"}
-                className="w-full h-48 object-cover"
-              />
+              {/* Video Player */}
+              <div className="w-full h-48">
+                <ReactPlayer
+                  url={videoUrl}
+                  controls
+                  width="100%"
+                  height="100%"
+                  className="rounded-t-lg"
+                />
+              </div>
 
               {/* Video Details */}
               <div className="p-4">
                 {/* Video Title */}
                 <h2 className="text-lg font-semibold text-blue-600 dark:text-blue-300 mb-2 hover:underline transition-all duration-200 ease-out">
-                  <a
-                    href={`https://www.youtube.com/watch?v=${videoId}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a href={videoUrl} target="_blank" rel="noreferrer">
                     {title || "Untitled Video"}
                   </a>
                 </h2>
