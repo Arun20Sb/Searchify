@@ -3,14 +3,16 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
-import { ResultContextP } from "./context/ResultContextP.jsx";
+
+// Import the UnifiedContextP from your provider file
+import UnifiedContextP from "./context/UnifiedContextP.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ResultContextP>
+    <UnifiedContextP>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </ResultContextP>
+    </UnifiedContextP>
   </StrictMode>
 );

@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.body {
+  font-family: "Nunito", sans-serif;
+}
+
+.specialNav {
+  font-family: "Exo 2", sans-serif;
+}
+
+.specialFont {
+  font-family: "Exo 2", sans-serif;
+}
+
+.specialPlaceholder {
+  font-family: "Hubot Sans", sans-serif;
+}
