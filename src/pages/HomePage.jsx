@@ -14,7 +14,7 @@ function HomePage({ darkTheme, setDarkTheme }) {
       {/* Navigation Bar with a background image */}
       <div
         className={`flex justify-start items-center space-x-8 py-4 px-6 shadow-md mt-6 overflow-hidden specialFont 
-          ${darkTheme ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-800'}`} 
+          ${darkTheme ? 'bg-gray-800 text-gray-300' : 'bg-gray-800 text-gray-300'}`} 
         // Dynamically set background and text color based on darkTheme state
         // style={{
         //   backgroundImage: `url(${imgUrl})`,

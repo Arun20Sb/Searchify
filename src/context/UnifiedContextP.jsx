@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchAnything_Context from "./Search_CreateContext"; // Import the context
-import { pixelsClient, API_CONFIG } from "./apiConfig";
+import { API_CONFIG } from "./apiConfig";
 
 function UnifiedContextP({ children }) {
   const [results, setResults] = useState({
@@ -43,8 +43,8 @@ function UnifiedContextP({ children }) {
       const response = await fetch(`${baseURL}${query}`, {
         method: "GET",
         headers: {
-          "x-rapidapi-key": apiKey,
-          "x-rapidapi-host": host,
+          "x-rapidapi-key": `${apiKey}`,
+          ...(host && { "x-rapidapi-host": host }), // Only add host if defined
         },
       });
 
@@ -53,8 +53,11 @@ function UnifiedContextP({ children }) {
       }
 
       const data = await response.json();
-      console.log(data);
-      setResults((prev) => ({ ...prev, [type]: data }));
+
+      setResults((prev) => ({
+        ...prev,
+        [type]: data || [],
+      }));
     } catch (error) {
       console.error(`Error fetching ${type}: `, error);
       setError((prev) => ({ ...prev, [type]: error.message }));
@@ -63,36 +66,20 @@ function UnifiedContextP({ children }) {
     }
   };
 
-  const handleImageSearch = async (query) => {
-    try {
-      if (!query || typeof query !== "string") {
-        throw new Error("Invalid query specified.");
-      }
-
-      setIsLoading((prev) => ({ ...prev, images: true }));
-      setError((prev) => ({ ...prev, images: null }));
-
-      const photos = await pixelsClient.photos.search({ query, per_page: 20 });
-
-      setResults((prev) => ({
-        ...prev,
-        images: photos.photos,
-      }));
-    } catch (error) {
-      console.error("Error fetching images: ", error);
-      setError((prev) => ({
-        ...prev,
-        images: "Failed to fetch images",
-      }));
-    } finally {
-      setIsLoading((prev) => ({ ...prev, images: false }));
-    }
-  };
-
   const getArticles = (query) => getApiResults("articles", query);
   const getVideos = (query) => getApiResults("videos", query);
   const getNews = (query) => getApiResults("news", query);
-  const getImages = handleImageSearch;
+  const getImages = (query) => getApiResults("images", query);
+
+  useEffect(() => {
+    if (searchTerm) {
+      getArticles(`/?query=${searchTerm}&limit=20`);
+      getVideos(`/search?query=${searchTerm}&limit=20`);
+      getNews(`/search?query=${searchTerm}&limit=20`);
+      getImages(`/imagesearch?q=${searchTerm}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]); // Re-fetch when searchTerm changes
 
   return (
     <SearchAnything_Context.Provider

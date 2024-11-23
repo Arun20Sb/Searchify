@@ -1,29 +1,36 @@
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Node modules and build files
-node_modules
-dist
-dist-ssr
+# Dependency directories
+node_modules/
+
+# Build files
+dist/
+dist-ssr/
+
+# Local environment settings
 *.local
 
 # Environment variables
 .env
 
-# Editor directories and files
-.vscode/*
+# IDE and editor-specific files
+.vscode/
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
- 
+
+# macOS-specific files
+.DS_Store
+
+# Deployment-related
+.vercel/

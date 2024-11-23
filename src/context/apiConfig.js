@@ -1,13 +1,13 @@
-// apiConfig.js
-import { createClient } from "pexels";
-
-export const pixelsClient = createClient(import.meta.env.VITE_PEXELS_API_KEY);
-
 export const API_CONFIG = {
   articles: {
-    baseURL: "https://real-time-web-search.p.rapidapi.com",
-    host: "real-time-web-search.p.rapidapi.com",
+    baseURL: "https://google-search74.p.rapidapi.com",
+    host: "google-search74.p.rapidapi.com",
     apiKey: import.meta.env.VITE_SEARCH_API_KEY,
+  },
+  images: {
+    baseURL: "https://google-search72.p.rapidapi.com",
+    host: "google-search72.p.rapidapi.com",
+    apiKey: import.meta.env.VITE_IMAGE_API_KEY,
   },
   videos: {
     baseURL: "https://yt-api.p.rapidapi.com",

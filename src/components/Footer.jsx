@@ -1,12 +1,20 @@
 function Footer() {
   return (
-    <div className="text-center p-6 mt-10 border-t border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
-      <h1 className="text-2xl font-semibold mb-2">© 2024 Searchify.</h1>
-      <p className="text-sm font-light mb-4">
-        Your ultimate search companion. Always here for your needs.
-      </p>
-      <p className="text-xs text-gray-300">Built with 💖 by devBob 🍀.</p>
-    </div>
+    <footer className="text-center p-8 mt-10 bg-gray-800 text-gray-100 ">
+      <div className="max-w-screen-lg mx-auto">
+        {/* Brand and Motto */}
+        <h1 className="text-3xl font-bold mb-3">© 2024 Searchify</h1>
+        <p className="text-md mb-6">
+          Helping you find what you need, anytime, anywhere. Let us do the
+          searching, while you relax and explore the best results!
+        </p>
+
+        {/* Extra Tagline */}
+        <p className="text-sm mb-4">
+          Built with 💖 by devBob 🍀. Your trusted search companion.
+        </p>
+      </div>
+    </footer>
   );
 }
 

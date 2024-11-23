@@ -1,29 +1,21 @@
-import { useEffect } from "react";
 import Loading from "./Loading";
 import { useUnifiedContext } from "../context/useUnifiedContext";
 
 function News() {
-  const { searchTerm, results, isLoading, getNews } = useUnifiedContext();
+  const { searchTerm, results, isLoading } = useUnifiedContext();
 
-  useEffect(() => {
-    if (searchTerm) {
-      getNews(`/search?query=${searchTerm}&limit=20`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]); // Re-fetch when search term changes
-
-  if (isLoading.news) {
+  if (isLoading?.news) {
     return <Loading />;
   }
 
-  const newsData = results.news?.data || []; // Default to empty array if results.news or results.news.data is undefined
+  const newsData = results?.news?.data || [];
 
   return (
     <div className="flex flex-wrap justify-center gap-8 px-4 py-8">
       {newsData.length === 0 ? (
         <p className="text-center text-gray-500 mt-10">
-          No news found for &quot;{searchTerm}&quot;. Actually, the API limit is over
-          for today 😭🥲
+          No news found for &quot;{searchTerm}&quot;. Actually, the API limit is
+          over for today 😭🥲
         </p>
       ) : (
         newsData.map(
@@ -52,7 +44,7 @@ function News() {
                 </h2>
 
                 <p className="text-gray-700 dark:text-gray-300 mb-4">
-                  {snippet.length > 160
+                  {snippet && snippet.length > 160
                     ? `${snippet.substring(0, 150)}...`
                     : snippet}
                 </p>
@@ -66,14 +58,16 @@ function News() {
                       loading="lazy"
                     />
                   )}
-                  <a
-                    href={source_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm text-blue-500 hover:underline"
-                  >
-                    {source_url}
-                  </a>
+                  {source_url && (
+                    <a
+                      href={source_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-sm text-blue-500 hover:underline"
+                    >
+                      {source_url}
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

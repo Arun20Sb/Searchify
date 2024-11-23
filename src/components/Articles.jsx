@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useUnifiedContext } from "../context/useUnifiedContext";
 import Loading from "./Loading";
 
@@ -9,35 +8,27 @@ const getRandomEmoji = () => {
 };
 
 function Articles() {
-  const { results, getArticles, isLoading, searchTerm } = useUnifiedContext();
-
-  useEffect(() => {
-    if (searchTerm) {
-      getArticles(`/search?q=${searchTerm}&num=20`);
-    }
-    // Adding a comment to suppress unnecessary dependency warnings
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]);
+  const { results, isLoading, searchTerm } = useUnifiedContext();
 
   if (isLoading.articles) return <Loading />;
   if (results.articles?.error) return <p>Error: {results.articles.error}</p>;
 
   // Handle empty results state safely
-  const articles = results.articles?.data || []; // Default to empty array if results.articles.data is undefined
+  const articles = results.articles?.results || []; // Default to empty array if results.articles.data is undefined
 
   // If no articles found, show a message
   if (articles.length === 0) {
     return (
       <p className="text-center text-gray-500 mt-10">
-        No articles found for &quot;{searchTerm}&quot;.
-        Actually Api limit is over for today 😭🥲
+        No articles found for &quot;{searchTerm}&quot;. Actually Api limit is
+        over for today 😭🥲
       </p>
     );
   }
 
   return (
     <div className="flex flex-wrap justify-between gap-8 px-8 py-8 md:px-56">
-      {articles.map(({ url, title, snippet }, index) => (
+      {articles.map(({ url, title, description }, index) => (
         <div
           key={index}
           className="md:w-2/5 w-full border-b-2 border-gray-600 pb-4"
@@ -61,11 +52,11 @@ function Articles() {
             </a>
           </div>
           <p className="text-gray-700 dark:text-gray-300 mb-3">
-            {snippet
-              ? snippet.length > 120
-                ? `${snippet.substring(0, 120)}...`
-                : snippet
-              : "No snippet available"}
+            {description
+              ? description.length > 120
+                ? `${description.substring(0, 120)}...`
+                : description
+              : "No description available"}
           </p>
         </div>
       ))}

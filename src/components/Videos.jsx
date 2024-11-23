@@ -1,22 +1,14 @@
-import { useEffect } from "react";
 import ReactPlayer from "react-player";
 import Loading from "./Loading";
 import { useUnifiedContext } from "../context/useUnifiedContext";
 
 function Videos() {
-  const { searchTerm, results, isLoading, getVideos } = useUnifiedContext();
-
-  useEffect(() => {
-    if (searchTerm) {
-      getVideos(`/search?query=${searchTerm}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]); // Re-fetch when search term changes
+  const { searchTerm, results, isLoading } = useUnifiedContext();
 
   if (isLoading.videos) return <Loading />;
   if (results.videos?.error) return <p>Error: {results.videos.error}</p>;
 
-  const videoData = results.videos?.data || []; // Default to empty array if results.videos or results.videos.data is undefined
+  const videoData = results.videos?.data || [];
 
   return (
     <div className="flex flex-wrap justify-center gap-8 px-4 py-8">
@@ -27,9 +19,7 @@ function Videos() {
         </p>
       ) : (
         videoData.map(
-          (
-            { title, description, channelTitle, channelThumbnail, videoId }
-          ) => {
+          ({ title, description, channelTitle, channelThumbnail, videoId }) => {
             const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
             return (
